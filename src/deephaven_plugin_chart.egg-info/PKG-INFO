@@ -1,0 +1,46 @@
+Metadata-Version: 2.1
+Name: deephaven-plugin-chart
+Version: 0.0.1.dev0
+Summary: Deephaven Chart Plugin
+Home-page: https://github.com/deephaven/deephaven-plugin-chart
+Author: Devin Smith, Vlad Babich, Joe Numainville
+Author-email: josephnumainville@deephaven.io
+Project-URL: Source Code, https://github.com/deephaven/deephaven-plugin-chart
+Project-URL: Bug Tracker, https://github.com/deephaven/deephaven-plugin-chart/issues
+Keywords: deephaven,plugin,graph
+Platform: any
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Operating System :: OS Independent
+Classifier: Environment :: Plugins
+Classifier: Topic :: Scientific/Engineering :: Visualization
+Classifier: Development Status :: 3 - Alpha
+Description-Content-Type: text/markdown
+License-File: LICENSE
+
+# Deephaven Plugin for Charts
+
+Custom implementation built on top of plotly express to make it compatible with deephaven tables.
+
+## Build
+
+To create your build / development environment:
+
+```sh
+python -m venv .venv
+source .venv/bin/activate
+pip install --upgrade pip setuptools
+pip install build deephaven-plugin plotly
+```
+
+To build:
+
+```sh
+python -m build --wheel
+```
+
+The wheel is stored in `dist/`. 
+
+To test within [deephaven-core](https://github.com/deephaven/deephaven-core), note where this wheel is stored (using `pwd`, for example).
+Then, follow the directions in the [deephaven-js-plugins](https://github.com/deephaven/deephaven-js-plugins) repo.
+
