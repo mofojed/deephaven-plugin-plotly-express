@@ -84,12 +84,17 @@ from deephaven_server import Server
 s = Server(port=10000, jvm_args=["-Xmx1g"])
 s.start()
 
-import deephaven.plot.express
+import deephaven.plot.express as dhp
+# import deephaven.plot.express.scatter as dhps
+import sys
 
 docs_title = "Deephaven Python plot API modules."
-package_roots = [deephaven.plot.express]
+package_roots = [dhp]
 package_excludes = ["._", "proto"]
-
+print("MJB dhp is ", dhp)
+print("MJB sys.path is ", sys.path)
+# print("MJB dhps is ", dhps)
+print("MJB dhp.scatter is ", dhp.scatter)
 import os
 import shutil
 import pkgutil
@@ -99,15 +104,33 @@ def glob_package_names(packages):
     rst = []
 
     for package in packages:
+        print("MJB package", package)
         rst.append(package.__name__)
+        print("MJB package.__name__", package.__name__)
+        print("MJB dir is", dir(package))
 
-        if hasattr(package, "__path__"):
-            for importer, modname, ispkg in pkgutil.walk_packages(
-                path=package.__path__,
-                prefix=package.__name__ + ".",
-                onerror=lambda x: None,
-            ):
-                rst.append(modname)
+        # Iterate using the dir() function...
+        for modname in dir(package):
+            print("MJB package modname is", modname)
+            rst.append(package.__name__ + "." + modname)
+
+        # Iterate using the directory paths...
+        # if hasattr(package, "__path__"):
+        #     print("MJB package.__path__", package.__path__)
+        #     for importer, modname, ispkg in pkgutil.walk_packages(
+        #         path=package.__path__,
+        #         prefix=package.__name__ + ".",
+        #         onerror=lambda x: print("MJB onerror", x),
+        #     ):
+        #         print("MJB package modname", modname)
+        #         rst.append(modname)
+
+
+        #     for importer, modname, ispkg in pkgutil.iter_modules(
+        #             path=package.__path__,
+        #             # prefix=package.__name__ + ".",
+        #     ):
+        #         print("MJB module modname", modname, "ispkg", ispkg)
 
     return rst
 
@@ -131,6 +154,7 @@ def package_tree(package_names):
 
 
 def make_rst_tree(package, tree):
+    print("MJB make_rst_tree", package, tree)
     package_name = ".".join(package)
 
     if len(tree) == 0:
@@ -143,9 +167,13 @@ def make_rst_tree(package, tree):
             pn = ".".join(p)
             toctree += "%s%s <%s>\n" % (" " * 4, k, pn)
 
+    # rst = (
+    #         "%s\n%s\n\n%s\n.. automodule:: %s\n    :members:\n    :no-undoc-members:\n    :show-inheritance:\n    :inherited-members:\n\n"
+    #         % (package_name, "=" * len(package_name), toctree, package_name)
+    # )
     rst = (
-        "%s\n%s\n\n%s\n.. automodule:: %s\n    :members:\n    :no-undoc-members:\n    :show-inheritance:\n    :inherited-members:\n\n"
-        % (package_name, "=" * len(package_name), toctree, package_name)
+            "%s\n%s\n\n%s\n.. autofunction:: %s\n\n"
+            % (package_name, "=" * len(package_name), toctree, package_name)
     )
 
     if len(package) > 0:
@@ -181,9 +209,14 @@ Python Modules
 
 
 def gen_sphinx_modules(docs_title, package_roots, package_excludes):
+    print("MJB package_roots", package_roots)
+    print("MJB package_excludes", package_excludes)
     pn = glob_package_names(package_roots)
+    print("MJB pn is ", pn)
     pn = [p for p in pn if not any(exclude in p for exclude in package_excludes)]
+    print("MJB pn is now", pn)
     pt = package_tree(pn)
+    print("MJB pt is", pt)
 
     if os.path.exists("code"):
         shutil.rmtree("code")

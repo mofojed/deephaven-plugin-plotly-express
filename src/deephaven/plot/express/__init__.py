@@ -36,6 +36,7 @@ from .plots import (
 from .data import data_generators
 
 __version__ = "0.0.5"
+__all__ = ["scatter", "bar"]
 
 NAME = "deephaven.plot.express.DeephavenFigure"
 

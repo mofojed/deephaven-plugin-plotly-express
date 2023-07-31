@@ -10,4 +10,4 @@ from ._private_utils import layer
 from .subplots import make_subplots
 
 
-__all__ = [scatter, pie]
+__all__ = ["scatter", "pie"]
