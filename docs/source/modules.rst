@@ -9,3 +9,4 @@ Deephaven Python plot API modules.
 
 
     ./code/deephaven.plot.express
+    ./code/deephaven.plot.express.data

@@ -34,6 +34,7 @@ extensions = [
     "sphinx.ext.todo",
     "sphinx.ext.viewcode",
     "sphinx_autodoc_typehints",
+    "sphinx_automodapi.automodapi"
 ]
 
 
